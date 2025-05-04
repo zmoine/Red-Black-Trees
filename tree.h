@@ -42,45 +42,40 @@ class RBTree {
         return curr;
     }
 
-    void zigleft(node* x) {
-        node* y = x->parent;
-        if (y == NIL || y == nullptr) return;
-
-        node* g = y->parent;
-
-        y->right = x->left;
-        if (x->left != NIL) x->left->parent = y;
-
-        x->left = y;
-        y->parent = x;
-
-        x->parent = g;
-        if (g != NIL) {
-            if (g->left == y) g->left = x;
-            else g->right = x;
+        void zigleft(node* x) {
+        node* y = x->right;
+        x->right = y->left;
+        if (y->left != NIL) {
+            y->left->parent = x;
         }
-        if(x->parent == NIL) root=x;
+        y->parent = x->parent;
+        if (x->parent == NIL) {
+            root = y;
+        } else if (x == x->parent->left) {
+            x->parent->left = y;
+        } else {
+            x->parent->right = y;
+        }
+        y->left = x;
+        x->parent = y;
     }
 
-
     void zigright(node* x) {
-        node* y = x->parent;
-        if (y == NIL || y == nullptr) return;
-
-        node* g = y->parent;
-
-        y->left = x->right;
-        if (x->right != NIL) x->right->parent = y;
-
-        x->right = y;
-        y->parent = x;
-
-        x->parent = g;
-        if (g != NIL) {
-            if (g->left == y) g->left = x;
-            else g->right = x;
+        node* y = x->left;
+        x->left = y->right;
+        if (y->right != NIL) {
+            y->right->parent = x;
         }
-        if(x->parent == NIL) root=x;
+        y->parent = x->parent;
+        if (x->parent == NIL) {
+            root = y;
+        } else if (x == x->parent->right) {
+            x->parent->right = y;
+        } else {
+            x->parent->left = y;
+        }
+        y->right = x;
+        x->parent = y;
     }
 
 
